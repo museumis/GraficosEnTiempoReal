@@ -17,13 +17,11 @@ public class Sprite {
 	private int velocidadX;
 	private int velocidadY;
 
-	
-	//Contructores
+	// Contructores
 	public Sprite() {
 	}
-	
 
-	public Sprite(int ancho, int alto, int posX, int posY,int velocidadX,int velocidadY,Color color) {
+	public Sprite(int ancho, int alto, int posX, int posY, int velocidadX, int velocidadY, Color color) {
 		this.ancho = ancho;
 		this.alto = alto;
 		this.posX = posX;
@@ -32,19 +30,28 @@ public class Sprite {
 		this.velocidadY = velocidadY;
 		this.color = color;
 
-		actualizarSprite();		
+		actualizarSprite();
 	}
-	
-	public  void actualizarSprite() {
-		buffer = new BufferedImage(this.ancho,this.alto, BufferedImage.TYPE_INT_ARGB);
+
+	public void actualizarSprite() {
+		buffer = new BufferedImage(this.ancho, this.alto, BufferedImage.TYPE_INT_ARGB);
 		Graphics g = buffer.getGraphics();
 		g.setColor(this.color);
-		g.fillRect(0,0,this.ancho,this.alto);
-		g.dispose();		
+		g.fillRect(0, 0, this.ancho, this.alto);
+		g.dispose();
 	}
 
+	public void moverSprite(int anchoPantalla, int altoPantalla) {
+		if (posX + ancho >= anchoPantalla) {
 
-	//Get and Set
+		}
+		if (posY + alto >= altoPantalla) {
+
+		}
+
+	}
+
+	// Get and Set
 	public BufferedImage getBuffer() {
 		return buffer;
 	}
@@ -93,26 +100,20 @@ public class Sprite {
 		this.posY = posY;
 	}
 
-
 	public int getVelocidadX() {
 		return velocidadX;
 	}
-
 
 	public void setVelocidadX(int velocidad) {
 		this.velocidadX = velocidad;
 	}
 
-
 	public int getVelocidadY() {
 		return velocidadY;
 	}
 
-
 	public void setVelocidadY(int velocidadY) {
 		this.velocidadY = velocidadY;
 	}
-	
-	
-	
+
 }

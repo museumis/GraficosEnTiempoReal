@@ -82,26 +82,30 @@ public class PanelJuego extends JPanel implements Runnable {
 				for (int i = 0; i < cuadrados.size(); i++) {
 					// Limites horizontales
 					if (cuadrados.get(i).getPosX() >= (this.getWidth() - cuadrados.get(i).getAncho())) {
-						cuadrados.get(i).setVelocidadX(cuadrados.get(i).getVelocidadX() * -1);
+						cuadrados.get(i).setVelocidadX(-Math.abs(cuadrados.get(i).getVelocidadX()));
 					}
 					if (cuadrados.get(i).getPosX() <= 0) {
-						cuadrados.get(i).setVelocidadX(cuadrados.get(i).getVelocidadX() * -1);
+						cuadrados.get(i).setVelocidadX(Math.abs(cuadrados.get(i).getVelocidadX()));
 					}
+					
+					
 
 					// Limites vertical
 					if (cuadrados.get(i).getPosY() <= 0) {
-						cuadrados.get(i).setVelocidadY(cuadrados.get(i).getVelocidadY() * -1);
+						cuadrados.get(i).setVelocidadY(Math.abs(cuadrados.get(i).getVelocidadY()));
 					}
 					if (cuadrados.get(i).getPosY() >= (this.getHeight() - cuadrados.get(i).getAlto())) {
-						cuadrados.get(i).setVelocidadY(cuadrados.get(i).getVelocidadY() * -1);
+						cuadrados.get(i).setVelocidadY(-Math.abs(cuadrados.get(i).getVelocidadY()));
 					}
 
+						// Comprobar colision
+					comprobarColision(cuadrados.get(i), i);
+					
 					// Movimiento
 					this.cuadrados.get(i).setPosX(this.cuadrados.get(i).getPosX() + cuadrados.get(i).getVelocidadX());
 					this.cuadrados.get(i).setPosY(this.cuadrados.get(i).getPosY() + cuadrados.get(i).getVelocidadY());
 
-					// Comprobar colision
-					comprobarColision(cuadrados.get(i), i);
+				
 
 				}
 				this.repaint();
@@ -144,9 +148,9 @@ public class PanelJuego extends JPanel implements Runnable {
 	 * @param maximo
 	 * @return aleatorio entre minimo y maximo
 	 */
-	public int aleatorio(int minimo, int maximo) {
+	public int aleatorio(int minimo, int cantidad) {
 		Random r = new Random();
-		int aleatorio = r.nextInt(maximo) + minimo;
+		int aleatorio = r.nextInt(cantidad) + minimo;
 		// System.out.println("Aleatorio generado " + aleatorio);
 		return aleatorio;
 
@@ -161,8 +165,8 @@ public class PanelJuego extends JPanel implements Runnable {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				cuadrados.add(new Sprite(aleatorio(15, 30), aleatorio(15, 30), e.getX(), e.getY(), aleatorio(-15, 15),
-						aleatorio(-15, 15), new Color(aleatorio(0, 255), aleatorio(0, 255), aleatorio(0, 255))));
+				cuadrados.add(new Sprite(aleatorio(15, 30), aleatorio(15, 30), e.getX(), e.getY(), aleatorio(-15, 31),
+						aleatorio(-15, 31), new Color(aleatorio(0, 255), aleatorio(0, 255), aleatorio(0, 255))));
 			}
 
 			@Override
