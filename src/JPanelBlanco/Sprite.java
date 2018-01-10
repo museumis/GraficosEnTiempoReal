@@ -42,14 +42,41 @@ public class Sprite {
 	}
 
 	public void moverSprite(int anchoPantalla, int altoPantalla) {
-		if (posX + ancho >= anchoPantalla) {
-
+		if (posX >= anchoPantalla-ancho) {
+			this.velocidadX=(-Math.abs(this.velocidadX));
 		}
-		if (posY + alto >= altoPantalla) {
-
+		if (posX <= 0) {
+			this.velocidadX=(Math.abs(this.velocidadX));
+		}
+		if (posY >= altoPantalla-alto) {
+			this.velocidadY=(-Math.abs(this.velocidadY));
+		}
+		if (posY <= 0) {
+			this.velocidadY=(Math.abs(this.velocidadY));
 		}
 
+		this.posX = this.posX+this.velocidadX;
+		this.posY = this.posY+this.velocidadY;
 	}
+	
+	public boolean colisionaCon(Sprite otro) {	
+	
+		// Paso 1 Sprite mas cercano a 0,0
+		if ((posX < otro.getPosX())
+				&& (posY < otro.getPosY())) {
+			// Paso 2
+			if  (((posX + ancho) >= otro.getPosX())
+					&& ((posY + alto) >= otro.getPosY())){
+				return true;
+			}
+		}
+		return false;
+
+	
+	
+		// Paso 2 
+	}
+	
 
 	// Get and Set
 	public BufferedImage getBuffer() {

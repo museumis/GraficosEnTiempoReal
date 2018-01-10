@@ -77,38 +77,17 @@ public class PanelJuego extends JPanel implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
+			this.repaint();
 			try {
 				Thread.sleep(30);
 				for (int i = 0; i < cuadrados.size(); i++) {
-					// Limites horizontales
-					if (cuadrados.get(i).getPosX() >= (this.getWidth() - cuadrados.get(i).getAncho())) {
-						cuadrados.get(i).setVelocidadX(-Math.abs(cuadrados.get(i).getVelocidadX()));
-					}
-					if (cuadrados.get(i).getPosX() <= 0) {
-						cuadrados.get(i).setVelocidadX(Math.abs(cuadrados.get(i).getVelocidadX()));
-					}
-					
-					
-
-					// Limites vertical
-					if (cuadrados.get(i).getPosY() <= 0) {
-						cuadrados.get(i).setVelocidadY(Math.abs(cuadrados.get(i).getVelocidadY()));
-					}
-					if (cuadrados.get(i).getPosY() >= (this.getHeight() - cuadrados.get(i).getAlto())) {
-						cuadrados.get(i).setVelocidadY(-Math.abs(cuadrados.get(i).getVelocidadY()));
-					}
-
-						// Comprobar colision
-					comprobarColision(cuadrados.get(i), i);
-					
 					// Movimiento
-					this.cuadrados.get(i).setPosX(this.cuadrados.get(i).getPosX() + cuadrados.get(i).getVelocidadX());
-					this.cuadrados.get(i).setPosY(this.cuadrados.get(i).getPosY() + cuadrados.get(i).getVelocidadY());
+					cuadrados.get(i).moverSprite(getWidth(), getHeight());
 
-				
-
+					// Comprobar colision
+					comprobarColision(cuadrados.get(i), i);
 				}
-				this.repaint();
+
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -117,28 +96,26 @@ public class PanelJuego extends JPanel implements Runnable {
 
 	/**
 	 * Metodo para comprobar colision
-	 * @param sprite que queremos comprobar
-	 * @param posicion que ocupa en la lista
+	 * 
+	 * @param sprite
+	 *            que queremos comprobar
+	 * @param posicion
+	 *            que ocupa en la lista
 	 */
 	public void comprobarColision(Sprite sprite, int posicion) {
 
 		for (int i = 0; i < cuadrados.size(); i++) {
-			if (i != posicion) {
-				// Paso 1 Sprite mas cercano a 0,0
-				if ((cuadrados.get(i).getPosX() < sprite.getPosX())
-						&& (cuadrados.get(i).getPosY() < sprite.getPosY())) {
-					// Paso 2 
-					if (((cuadrados.get(i).getPosX() + cuadrados.get(i).getAncho()) >= sprite.getPosX())
-							&& ((cuadrados.get(i).getPosY() + cuadrados.get(i).getAncho()) >= sprite.getPosY())) {
-						cuadrados.remove(Math.max(i,posicion));
-						evaporados++;
-						cuadrados.remove(Math.min(i,posicion));
-						evaporados++;
-
-					}
+			for (int j = i+1; j < cuadrados.size(); j++) {
+				if (cuadrados.get(i).colisionaCon(cuadrados.get(j))) {
+					cuadrados.remove(j);
+					evaporados++;
+					cuadrados.remove(i);
+					evaporados++;
 				}
+
 			}
 		}
+
 	}
 
 	/**
